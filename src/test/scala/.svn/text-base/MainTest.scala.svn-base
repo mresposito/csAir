@@ -1,0 +1,34 @@
+package com.example.test
+ 
+import org.scalatest.FunSuite
+import org.scalatest.junit.AssertionsForJUnit
+import org.junit.Assert._
+import org.junit.Test
+import com.main._
+ 
+class MainTest extends FunSuite {
+
+  val cls = Classes
+  val cityJson  = cls.openJson ("data/singleCity.json")
+  val routeJson = cls openJson ("data/singleRoute.json")
+
+  test("Test City Parse") {
+    val cities = cls.parseToClass[City]( cityJson ,cls.CITIES ).first
+    assertEquals( cities.name  , "Santiago" )
+    assertEquals( cities.region, 1 )
+  }
+
+  test("Test Route Parse") {
+    val cities = cls.parseToClass[City]( cityJson ,cls.CITIES ).first
+    assertEquals( cities.name  , "Santiago" )
+    assertEquals( cities.region, 1 )
+  }
+
+  test("Graph") {
+    val cities    = cls.parseToClass[City] ( cityJson , cls.CITIES )
+    val route     = cls.parseToClass[Route]( routeJson, cls.ROUTES )
+    val g = new Graph ( cities, route ) 
+    assertEquals ( g.nodes  length, 2 )
+    assertEquals ( g.routes length, 1 )
+  }
+}
